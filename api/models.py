@@ -8,6 +8,22 @@ class User(AbstractUser):
         (2, 'cashier') # kassir
     )
     type = models.IntegerField(choices=STATUS, default=1)
+    works = models.IntegerField(default=0)
+
+
+class Cash(models.Model):
+    status = (
+        (1, 'plastik'),
+        (2, 'naqd'),
+    )
+    type = models.IntegerField(choices=status)
+    money = models.IntegerField()
+
+
+class Payment(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
+    money = models.IntegerField()
+
 
 
 class Category(models.Model):
@@ -43,3 +59,4 @@ class Order(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     order = models.ManyToManyField(OrderItem)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_active = models.BooleanField(default=True)

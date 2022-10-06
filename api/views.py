@@ -140,11 +140,10 @@ class GetAll(APIView):
                 }
                 product.append(hello)
                 price += i.food.price * i.quantity
-                data = {
-                    'price': price,
-                    'product': product,
-
-                }
+            data = {
+                'price': price,
+                'product': product,
+            }
             return Response(data)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -191,14 +190,12 @@ def OrderItemcreate(request):
 @permission_classes([IsAuthenticated])
 def Ordercreated(request):
     user = request.user
-    order = request.POST.getlist('order')
-    print(order)
+    item = request.POST.getlist('item')
     table = request.POST.get('table')
-    orderorder = Order.objects.create(table_id=int(table), user=user)
-    for i in order:
-        orderorder.order.add(OrderItem.objects.get(id=int(i)))
-        print(int(i))
-    return Response(OrderSerializer(orderorder, many=True).data)
+    order = Order.objects.create(table_id=int(table), user=user)
+    for i in item:
+        order.order.add(OrderItem.objects.get(id=int(i)))
+    return Response(OrderSerializer(order).data)
 
 
 @api_view(['GET'])
